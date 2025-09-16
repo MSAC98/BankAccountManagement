@@ -14,13 +14,25 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping("/{customerId}")
+    @PostMapping("/customers/{customerId}")
     public Account createAccount(@PathVariable int customerId, @RequestBody Account account) {
         return accountService.createAccount(customerId, account.getType(), account.getBalance());
     }
 
-    @GetMapping("/customer/{customerId}")
+    @GetMapping("/customers/{customerId}")
     public List<Account> getAccountsByCustomerId(@PathVariable int customerId) {
         return accountService.getAccountsByCustomerId(customerId);
+    }
+
+    //maybe add get account by account id
+
+    @DeleteMapping("/{accountId}")
+    public void deleteAccount(@PathVariable int accountId) {
+        accountService.deleteAccount(accountId);
+    }
+
+    @DeleteMapping("/customers/{customerId}")
+    public void deleteAccounts(@PathVariable int customerId) {
+        accountService.deleteAccounts(customerId);
     }
 }

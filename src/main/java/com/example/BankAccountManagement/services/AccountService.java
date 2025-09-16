@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -23,5 +24,14 @@ public class AccountService {
 
     public List<Account> getAccountsByCustomerId(int customerId) {
         return accountRepo.findByCustomerId(customerId);
+    }
+
+    public void deleteAccount(int id) {
+        accountRepo.deleteById(id);
+    }
+
+    public void deleteAccounts(int customerId) {
+        List<Account> customerAccounts = accountRepo.findByCustomerId(customerId);
+        accountRepo.deleteAll(customerAccounts);
     }
 }
