@@ -1,7 +1,6 @@
 package com.example.BankAccountManagement.controllers;
 
 import com.example.BankAccountManagement.entities.Customer;
-import com.example.BankAccountManagement.repositories.CustomerRepo;
 import com.example.BankAccountManagement.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +21,8 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable int id) {
         return customerService.getCustomerById(id)
-                .map(ResponseEntity::ok)                  // 200 OK if found
-                .orElse(ResponseEntity.notFound().build()); // 404 Not Found if missing
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
