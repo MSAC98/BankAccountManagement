@@ -34,8 +34,7 @@ public class CustomerController {
     public Customer updateCustomer(@RequestBody Customer customer, @PathVariable int id) {
         return customerService.getCustomerById(id)
                 .map(existingCustomer -> {
-                    existingCustomer.setFirstName(customer.getFirstName());
-                    existingCustomer.setLastName(customer.getLastName());
+                    existingCustomer.setFullName(customer.getFullName());
                     return customerService.saveCustomer(existingCustomer);
                 })
                 .orElseThrow(() -> new RuntimeException("Customer not found with id " + id));
