@@ -31,6 +31,17 @@ public class CustomerController {
         return customerService.saveCustomer(customer);
     }
 
+    @PutMapping("/{id}")
+    public Customer updateCustomer(@RequestBody Customer customer, @PathVariable int id) {
+        return customerService.getCustomerById(id)
+                .map(existingCustomer -> {
+                    existingCustomer.setFirstName(customer.getFirstName());
+                    existingCustomer.setLastName(customer.getLastName());
+                    return customerService.saveCustomer(existingCustomer);
+                })
+                .orElseThrow(() -> new RuntimeException("Customer not found with id " + id));
+    }
+
     @DeleteMapping("/{id}")
     public void deleteCustomer(@PathVariable int id) {
         customerService.deleteCustomer(id);
