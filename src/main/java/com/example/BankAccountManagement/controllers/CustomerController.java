@@ -1,7 +1,6 @@
 package com.example.BankAccountManagement.controllers;
 
 import com.example.BankAccountManagement.entities.Customer;
-import com.example.BankAccountManagement.repositories.CustomerRepo;
 import com.example.BankAccountManagement.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,32 +13,29 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping
-    public Iterable<Customer> getAllCustomers() {
-        return customerService.getAllCustomers();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable int id) {
-        return customerService.getCustomerById(id)
-                .map(ResponseEntity::ok)                  // 200 OK if found
-                .orElse(ResponseEntity.notFound().build()); // 404 Not Found if missing
-    }
-
     @PostMapping
     public Customer createCustomer(@RequestBody Customer customer) {
         return customerService.saveCustomer(customer);
     }
 
-    @PutMapping("/{id}")
-    public Customer updateCustomer(@RequestBody Customer customer, @PathVariable int id) {
+    @GetMapping
+    public ResponseEntity<Iterable<Customer>> getAllCustomers() {
+        Iterable<Customer> customers = customerService.getAllCustomers();
+        return ResponseEntity.ok(customers);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable int id) {
         return customerService.getCustomerById(id)
-                .map(existingCustomer -> {
-                    existingCustomer.setFirstName(customer.getFirstName());
-                    existingCustomer.setLastName(customer.getLastName());
-                    return customerService.saveCustomer(existingCustomer);
-                })
-                .orElseThrow(() -> new RuntimeException("Customer not found with id " + id));
+                .map(ResponseEntity::ok)                    
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable int id) {
+        return customerService.update(customer, id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
