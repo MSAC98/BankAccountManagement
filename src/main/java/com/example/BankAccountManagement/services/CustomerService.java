@@ -2,11 +2,8 @@ package com.example.BankAccountManagement.services;
 
 import com.example.BankAccountManagement.entities.Customer;
 import com.example.BankAccountManagement.repositories.CustomerRepo;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -28,7 +25,7 @@ public class CustomerService {
         return customerRepo.save(customer);
     }
 
-    public Optional<Customer> update(Customer customer, int id) {
+    public Optional<Customer> updateCustomer(Customer customer, int id) {
         return customerRepo.findById(id).map(currentCustomer -> {
             currentCustomer.setFirstName(customer.getFirstName());
             currentCustomer.setLastName(customer.getLastName());
@@ -36,7 +33,12 @@ public class CustomerService {
         });
     }
 
-    public void deleteCustomer(int id) {
-        customerRepo.deleteById(id);
+    public boolean deleteCustomer(int id) {
+        return customerRepo.findById(id)
+                .map(customer -> {
+                    customerRepo.deleteById(id);
+                    return true;
+                })
+                .orElse(false);
     }
 }

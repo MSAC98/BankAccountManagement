@@ -13,33 +13,34 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public Customer createCustomer(@RequestBody Customer customer) {
         return customerService.saveCustomer(customer);
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public ResponseEntity<Iterable<Customer>> getAllCustomers() {
         Iterable<Customer> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Customer> getCustomerById(@PathVariable int id) {
         return customerService.getCustomerById(id)
-                .map(ResponseEntity::ok)                    
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable int id) {
-        return customerService.update(customer, id)
+        return customerService.updateCustomer(customer, id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCustomer(@PathVariable int id) {
-        customerService.deleteCustomer(id);
+    public ResponseEntity<Void> deleteCustomer(@PathVariable int id) {
+        boolean deleted = customerService.deleteCustomer(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }
