@@ -2,9 +2,16 @@ package com.example.BankAccountManagement.controllers;
 
 import com.example.BankAccountManagement.entities.Customer;
 import com.example.BankAccountManagement.services.CustomerService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.rmi.ServerException;
 
 @RestController
 @RequestMapping("/customers")
@@ -14,8 +21,18 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping(consumes = "application/json")
-    public Customer createCustomer(@RequestBody Customer customer) {
-        return customerService.saveCustomer(customer);
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer, HttpServletRequest request) {
+        Customer savedCustomer = customerService.saveCustomer(customer);
+
+        if (savedCustomer != null) {
+            URI location = ServletUriComponentsBuilder.fromRequestUri(request)
+                    .path("/{id}")
+                    .buildAndExpand(savedCustomer.getId())
+                    .toUri();
+            return ResponseEntity.created(location).body(savedCustomer);
+        } else {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creating customer");
+        }
     }
 
     @GetMapping(produces = "application/json")
