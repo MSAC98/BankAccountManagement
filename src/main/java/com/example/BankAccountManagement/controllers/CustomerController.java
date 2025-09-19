@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.rmi.ServerException;
 
 @RestController
 @RequestMapping("/customers")
