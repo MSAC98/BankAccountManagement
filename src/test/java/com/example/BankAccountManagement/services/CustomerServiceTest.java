@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,9 +40,27 @@ class CustomerServiceTest {
         assertEquals("Jordan", result.getLastName());
     }
 
-    //TODO
     @Test
     void testGetAllCustomers() {
+        Customer mockCustomer1 = new Customer("Michael", "Jordan");
+        Customer mockCustomer2 = new Customer("John", "Doe");
+
+        List<Customer> customerList = new ArrayList<>();
+        customerList.add(mockCustomer1);
+        customerList.add(mockCustomer2);
+
+        when(customerRepo.findAll()).thenReturn(customerList);
+
+        Iterable<Customer> result = customerService.getAllCustomers();
+
+        List<Customer> resultList = new ArrayList<>();
+        result.forEach(resultList::add);
+
+        assertEquals(2, resultList.size());
+        assertEquals("Michael", resultList.get(0).getFirstName());
+        assertEquals("Jordan", resultList.get(0).getLastName());
+        assertEquals("John", resultList.get(1).getFirstName());
+        assertEquals("Doe", resultList.get(1).getLastName());
     }
 
     @Test
@@ -78,9 +98,17 @@ class CustomerServiceTest {
         assertEquals("Doe", result.get().getLastName());
     }
 
-    // TODO
     @Test
     void testUpdateCustomer_NotFound() {
+        int customerId = 99;
+        Customer updatedCustomer = new Customer("Aline", "Doe");
+
+        when(customerRepo.findById(customerId)).thenReturn(Optional.empty());
+
+        Optional<Customer> result = customerService.updateCustomer(updatedCustomer, customerId);
+
+        verify(customerRepo, never()).save(any(Customer.class));
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -97,8 +125,15 @@ class CustomerServiceTest {
         verify(customerRepo, times(1)).deleteById(customerId);
     }
 
-    // TODO
     @Test
     void testDeleteCustomer_NotFound() {
+        int customerId = 99;
+
+        when(customerRepo.findById(customerId)).thenReturn(Optional.empty());
+
+        boolean result = customerService.deleteCustomer(customerId);
+
+        verify(customerRepo, never()).deleteById(anyInt());
+        assertFalse(result);
     }
 }
