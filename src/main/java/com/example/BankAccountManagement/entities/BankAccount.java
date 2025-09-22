@@ -6,20 +6,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Account {
+public class BankAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;
     private int customerId;
-    private String type;
-    private int balance;
+    private String accountType;
+    private int accountBalance;
 
-    public Account() {}
+    public BankAccount() {}
 
-    public Account(String type, int balance) {
-        this.type = type;
-        this.balance = balance;
+    public BankAccount(String type, int balance) {
+        this.accountType = type;
+        this.accountBalance = balance;
     }
 
     public int getAccountId() {
@@ -38,19 +38,19 @@ public class Account {
         this.customerId = customerId;
     }
 
-    public String getType() {
-        return type;
+    public String getAccountType() {
+        return accountType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
-    public int getBalance() {
-        return balance;
+    public int getAccountBalance() {
+        return accountBalance;
     }
 
-    public void setBalance(int balance) {
-        this.balance = balance;
+    public void setAccountBalance(int accountBalance) {
+        this.accountBalance = accountBalance;
     }
 }
