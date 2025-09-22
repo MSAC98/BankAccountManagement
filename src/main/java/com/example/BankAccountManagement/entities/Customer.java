@@ -2,6 +2,9 @@ package com.example.BankAccountManagement.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Customer {
 
@@ -10,6 +13,9 @@ public class Customer {
     private int customerId;
     private String firstName;
     private String lastName;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BankAccount> accounts = new ArrayList<>();
 
     public Customer() {}
 

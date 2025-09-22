@@ -1,9 +1,6 @@
 package com.example.BankAccountManagement.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class BankAccount {
@@ -14,6 +11,10 @@ public class BankAccount {
     private int customerId;
     private String accountType;
     private int accountBalance;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 
     public BankAccount() {}
 
@@ -52,5 +53,13 @@ public class BankAccount {
 
     public void setAccountBalance(int accountBalance) {
         this.accountBalance = accountBalance;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
