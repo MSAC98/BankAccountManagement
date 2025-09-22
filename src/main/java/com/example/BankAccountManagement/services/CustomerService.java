@@ -25,7 +25,20 @@ public class CustomerService {
         return customerRepo.save(customer);
     }
 
-    public void deleteCustomer(int id) {
-        customerRepo.deleteById(id);
+    public Optional<Customer> updateCustomer(Customer customer, int id) {
+        return customerRepo.findById(id).map(currentCustomer -> {
+            currentCustomer.setFirstName(customer.getFirstName());
+            currentCustomer.setLastName(customer.getLastName());
+            return customerRepo.save(currentCustomer);
+        });
+    }
+
+    public boolean deleteCustomer(int id) {
+        return customerRepo.findById(id)
+                .map(customer -> {
+                    customerRepo.deleteById(id);
+                    return true;
+                })
+                .orElse(false);
     }
 }
