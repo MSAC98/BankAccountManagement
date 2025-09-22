@@ -26,7 +26,7 @@ public class CustomerController {
         if (savedCustomer != null) {
             URI location = ServletUriComponentsBuilder.fromRequestUri(request)
                     .path("/{id}")
-                    .buildAndExpand(savedCustomer.getId())
+                    .buildAndExpand(savedCustomer.getCustomerId())
                     .toUri();
             return ResponseEntity.created(location).body(savedCustomer);
         } else {
