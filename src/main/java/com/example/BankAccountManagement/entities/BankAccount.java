@@ -8,7 +8,7 @@ public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;
-    private int customerId;
+
     private String accountType;
     private int accountBalance;
 
@@ -29,14 +29,6 @@ public class BankAccount {
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
     }
 
     public String getAccountType() {

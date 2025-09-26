@@ -36,7 +36,7 @@ public class BankAccountService {
     }
 
     public List<BankAccount> getBankAccountsByCustomerId(int customerId) {
-        return accountRepo.findByCustomerId(customerId);
+        return accountRepo.findByCustomerCustomerId(customerId);
     }
 
     public boolean deleteBankAccount(int accountId) {
@@ -49,7 +49,7 @@ public class BankAccountService {
     }
 
     public boolean deleteBankAccounts(int customerId) {
-        List<BankAccount> customerAccounts = accountRepo.findByCustomerId(customerId);
+        List<BankAccount> customerAccounts = accountRepo.findByCustomerCustomerId(customerId);
 
         if (customerAccounts.isEmpty()) {
             return false;

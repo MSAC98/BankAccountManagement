@@ -108,7 +108,7 @@ public class BankAccountServiceTest {
         mockAccount2.setAccountBalance(25000);
 
         List<BankAccount> accounts = Arrays.asList(mockAccount1, mockAccount2);
-        when(accountRepo.findByCustomerId(customerId)).thenReturn(accounts);
+        when(accountRepo.findByCustomerCustomerId(customerId)).thenReturn(accounts);
 
         boolean result = bankAccountService.deleteBankAccounts(customerId);
 
