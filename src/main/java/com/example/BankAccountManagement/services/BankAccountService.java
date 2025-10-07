@@ -4,7 +4,6 @@ import com.example.BankAccountManagement.entities.BankAccount;
 import com.example.BankAccountManagement.entities.Customer;
 import com.example.BankAccountManagement.repositories.AccountRepo;
 import com.example.BankAccountManagement.repositories.CustomerRepo;
-import org.hibernate.type.TrueFalseConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

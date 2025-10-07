@@ -1,3 +1,5 @@
+USE bank;
+
 CREATE TABLE customer (
     customerId INT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50) NOT NULL,

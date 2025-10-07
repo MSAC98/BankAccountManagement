@@ -2,6 +2,8 @@ package com.example.BankAccountManagement.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class BankAccount {
 
@@ -15,6 +17,9 @@ public class BankAccount {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
+
+    @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new java.util.ArrayList<>();
 
     public BankAccount() {}
 

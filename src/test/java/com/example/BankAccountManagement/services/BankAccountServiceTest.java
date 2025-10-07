@@ -31,7 +31,7 @@ public class BankAccountServiceTest {
     private CustomerRepo customerRepo;
 
     @Test
-    void testBankAccountCustomer() {
+    void testCreateBankAccount() {
         int customerId = 1;
         Customer mockCustomer = new Customer("Michael", "Jordan");
         mockCustomer.setCustomerId(customerId);
@@ -55,7 +55,6 @@ public class BankAccountServiceTest {
 
     @Test
     void testGetBankAccountById() {
-        int customerId = 1;
         int accountId = 1;
 
         BankAccount mockAccount = new BankAccount();
@@ -68,9 +67,36 @@ public class BankAccountServiceTest {
         Optional<BankAccount> result = bankAccountService.getBankAccountById(accountId);
 
         assertTrue(result.isPresent());
-        assertEquals(customerId, result.get().getAccountId());
+        assertEquals(accountId, result.get().getAccountId());
         assertEquals("Checking", result.get().getAccountType());
         assertEquals(1000, result.get().getAccountBalance());
+    }
+
+    @Test
+    void testGetBankAccountsByCustomerId() {
+        int customerId = 1;
+        Customer mockCustomer = new Customer("Alicia", "Jobs");
+        mockCustomer.setCustomerId(customerId);
+
+        BankAccount mockAccount1 = new BankAccount();
+        mockAccount1.setAccountType("Checking");
+        mockAccount1.setAccountBalance(1000);
+
+        BankAccount mockAccount2 = new BankAccount();
+        mockAccount2.setAccountType("Saving");
+        mockAccount2.setAccountBalance(25000);
+
+        List<BankAccount> accounts = Arrays.asList(mockAccount1, mockAccount2);
+        when(accountRepo.findByCustomerCustomerId(customerId)).thenReturn(accounts);
+
+        List<BankAccount> result = bankAccountService.getBankAccountsByCustomerId(customerId);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("Checking", result.get(0).getAccountType());
+        assertEquals(1000, result.get(0).getAccountBalance());
+        assertEquals("Saving", result.get(1).getAccountType());
+        assertEquals(25000, result.get(1).getAccountBalance());
     }
 
     @Test
