@@ -36,7 +36,7 @@ public class TransactionService {
     }
 
     public List<Transaction> getTransactionsByAccountId(int accountId) {
-        return transactionRepo.findByBankAccountAccountID(accountId);
+        return transactionRepo.findByBankAccountAccountId(accountId);
     }
 
     public boolean deleteTransaction(int transactionId) {
@@ -49,7 +49,7 @@ public class TransactionService {
     }
 
     public boolean deleteTransactions(int accountId) {
-        List<Transaction> accountTransactions = transactionRepo.findByBankAccountAccountID(accountId);
+        List<Transaction> accountTransactions = transactionRepo.findByBankAccountAccountId(accountId);
 
         if (accountTransactions.isEmpty()) {
             return false;
@@ -58,6 +58,35 @@ public class TransactionService {
             transactionRepo.deleteAll(accountTransactions);
             return true;
         }
+    }
+
+    public List<Transaction> getTransactionsByType(int accountId, String type) {
+        List<Transaction> transactions = transactionRepo.findByBankAccountAccountId(accountId);
+        return transactions.stream()
+                .filter(t -> t.getTransactionType().equalsIgnoreCase(type))
+                .toList();
+    }
+
+    public int getBalanceByAccountId(int accountId) {
+        List<Transaction> transactions = transactionRepo.findByBankAccountAccountId(accountId);
+        int balance = 0;
+        for (Transaction t : transactions) {
+            if (t.getTransactionType().equalsIgnoreCase("deposit")) {
+                balance += t.getAmount();
+            } else if (t.getTransactionType().equalsIgnoreCase("withdrawal")) {
+                balance -= t.getAmount();
+            }
+        }
+        return balance;
+    }
+
+    public Optional<Transaction> updateTransaction(int transactionId, String newType, int newAmount) {
+        return transactionRepo.findById(transactionId)
+                .map(transaction -> {
+                    transaction.setTransactionType(newType);
+                    transaction.setAmount(newAmount);
+                    return transactionRepo.save(transaction);
+                });
     }
 
 }

@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface TransactionRepo extends CrudRepository<Transaction, Integer> {
-    List<Transaction> findByBankAccountAccountID(int accountID);
+    List<Transaction> findByBankAccountAccountId(int accountId);
 }

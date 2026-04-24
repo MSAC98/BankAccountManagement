@@ -88,7 +88,7 @@ public class TransactionServiceTest {
         mockTransaction2.setAmount(100);
         mockTransaction2.setBankAccount(mockAccount);
 
-        when(transactionRepo.findByBankAccountAccountID(accountId))
+        when(transactionRepo.findByBankAccountAccountId(accountId))
                 .thenReturn(java.util.Arrays.asList(mockTransaction1, mockTransaction2));
 
         java.util.List<Transaction> result = transactionService.getTransactionsByAccountId(accountId);
@@ -136,7 +136,7 @@ public class TransactionServiceTest {
         mockTransaction2.setAmount(100);
         mockTransaction2.setBankAccount(mockAccount);
 
-        when(transactionRepo.findByBankAccountAccountID(accountId))
+        when(transactionRepo.findByBankAccountAccountId(accountId))
                 .thenReturn(java.util.Arrays.asList(mockTransaction1, mockTransaction2));
 
         boolean result = transactionService.deleteTransactions(accountId);
