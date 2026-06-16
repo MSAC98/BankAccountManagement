@@ -40,7 +40,7 @@ public class CustomerControllerIntegrationTest {
     void getCustomerByIdReturnsCustomerWhenExists() throws Exception {
         Customer mockCustomer = customerRepo.save(new Customer("Alicia", "Jobs"));
 
-        mockMvc.perform(get("/customers/{id}", mockCustomer.getId()))
+        mockMvc.perform(get("/customers/{id}", mockCustomer.getCustomerId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value("Alicia"))
                 .andExpect(jsonPath("$.lastName").value("Jobs"));
@@ -49,7 +49,7 @@ public class CustomerControllerIntegrationTest {
     @Test
     void updateCustomerById() throws Exception {
         Customer mockCustomer = customerRepo.save(new Customer("Aline", "Doe"));
-        int customerId = mockCustomer.getId();
+        int customerId = mockCustomer.getCustomerId();
 
         mockMvc.perform(put("/customers/{id}", customerId)
                 .contentType("application/json")
@@ -64,7 +64,7 @@ public class CustomerControllerIntegrationTest {
     @Test
     void deleteCustomerById() throws Exception {
         Customer mockCustomer = customerRepo.save(new Customer("Bob", "Smith"));
-        int customerId = mockCustomer.getId();
+        int customerId = mockCustomer.getCustomerId();
 
         mockMvc.perform(delete("/customers/{id}", customerId))
                 .andExpect(status().isNoContent());

@@ -28,14 +28,14 @@ class CustomerServiceTest {
     void testCreateCustomer() {
         int customerId = 1;
         Customer mockCustomer = new Customer("Michael", "Jordan");
-        mockCustomer.setId(customerId);
+        mockCustomer.setCustomerId(customerId);
 
         when(customerRepo.save(mockCustomer)).thenReturn(mockCustomer);
 
         Customer result = customerService.saveCustomer(mockCustomer);
 
         assertNotNull(result);
-        assertEquals(customerId, result.getId());
+        assertEquals(customerId, result.getCustomerId());
         assertEquals("Michael", result.getFirstName());
         assertEquals("Jordan", result.getLastName());
     }
@@ -67,14 +67,14 @@ class CustomerServiceTest {
     void testGetCustomerById() {
         int customerId = 1;
         Customer mockCustomer = new Customer("John", "Doe");
-        mockCustomer.setId(customerId);
+        mockCustomer.setCustomerId(customerId);
 
         when(customerRepo.findById(customerId)).thenReturn(Optional.of(mockCustomer));
 
         Optional<Customer> result = customerService.getCustomerById(customerId);
 
         assertTrue(result.isPresent());
-        assertEquals(customerId, result.get().getId());
+        assertEquals(customerId, result.get().getCustomerId());
         assertEquals("John", result.get().getFirstName());
         assertEquals("Doe", result.get().getLastName());
     }
@@ -83,7 +83,7 @@ class CustomerServiceTest {
     void testUpdateCustomer() {
         int customerId = 1;
         Customer existingCustomer = new Customer("Alice", "Johnson");
-        existingCustomer.setId(customerId);
+        existingCustomer.setCustomerId(customerId);
 
         Customer updatedCustomer = new Customer("Aline", "Doe");
 
@@ -93,7 +93,7 @@ class CustomerServiceTest {
         Optional<Customer> result = customerService.updateCustomer(updatedCustomer, customerId);
 
         assertTrue(result.isPresent());
-        assertEquals(customerId, result.get().getId());
+        assertEquals(customerId, result.get().getCustomerId());
         assertEquals("Aline", result.get().getFirstName());
         assertEquals("Doe", result.get().getLastName());
     }
@@ -115,7 +115,7 @@ class CustomerServiceTest {
     void testDeleteCustomerById() {
         int customerId = 1;
         Customer mockCustomer = new Customer("Alicia", "Jobs");
-        mockCustomer.setId(customerId);
+        mockCustomer.setCustomerId(customerId);
 
         when(customerRepo.findById(customerId)).thenReturn(Optional.of(mockCustomer));
 
